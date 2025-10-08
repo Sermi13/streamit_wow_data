@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'title'                     => 'Usuário',
+    'lbl_profile_image'         => 'Imagem de Perfil',
+    'lbl_first_name'            => 'Nome',
+    'lbl_last_name'             => 'Sobrenome',
+    'lbl_Email'                 => 'E-mail',
+    'lbl_phone_number'          => 'Número de Telefone',
+    'lbl_gender'                => 'Gênero',
+    'lbl_status'                => 'Status',
+    'lbl_verification_status'   => 'Status de Verificação',
+    'lbl_blocked'               => 'Bloqueado',
+    'msg_verified'              => 'Verificado',
+    'msg_unverified'            => 'Precisa Verificar',
+    'lbl_action'                => 'Ação',
+    'lbl_date_of_birth'         => 'Data de Nascimento',
+    'lbl_name'                  => 'Nome',
+    'about'                     => 'Sobre',
+    'total_reviews'             => 'Total de Avaliações',
+    'other_details'             => 'Outros Detalhes',
+    'reviews'                   => 'Avaliações',
+    'data_not_found'            => 'Dados não encontrados',
+    'view_all'                  => 'Ver Todos',
+    'email_sent'                => 'E-mail enviado com sucesso!',
+];

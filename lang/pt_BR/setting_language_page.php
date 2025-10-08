@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'lbl_language' => 'Opção de Idioma',
+    'lbl_file' => 'Selecionar Arquivo para Traduzir',
+    'lbl_key' => 'Chave',
+    'lbl_value' => 'Valor',
+    'lbl_timezone' => 'Fuso Horário',
+    'lbl_data_table_limit' => 'Limite da Tabela de Dados',
+    'lbl_currency' => 'Configuração de Moeda',
+    'soon' => 'Em breve',
+    'lbl_body_chart' => 'Gráfico Corporal',
+    'lbl_theme_mode' => 'Modo de Tema',
+    'Menubar_position' => 'Posição da Barra de Menu',
+    'lbl_image_handling' => 'Manipulação de Imagem',
+    'lbl_menu_items' => 'Menu',
+    'btn_add_new_images' => 'Adicionar Novas Imagens',
+    'tbl_header_name' => 'Nome',
+    'tbl_header_image' => 'Imagem',
+    'tbl_header_default' => 'Padrão',
+    'tbl_header_action' => 'Ação',
+    'image_template_section_title' => 'Modelo de Imagem',
+    'lbl_default' => 'Padrão',
+    'btn_remove' => 'Remover',
+    'lbl_storage_options' => 'Opções de Armazenamento',
+];

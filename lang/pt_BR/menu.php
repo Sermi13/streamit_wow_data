@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'main' => 'Principal',
+    'dashboard' => 'Painel',
+    'calendar_booking' => 'Agenda de Reservas',
+    'service_provider' => 'Prestador de Serviços',
+    'booking' => 'Reserva',
+    'service' => 'Serviço',
+    'list' => 'Lista',
+    'category' => 'Categoria',
+    'sub_category' => 'Subcategoria',
+    'user' => 'Usuário',
+    'employee' => 'Funcionário',
+    'finance' => 'Finanças',
+    'tax' => 'Imposto',
+    'staff_earning' => 'Ganhos dos Funcionários',
+    'reports' => 'Relatórios',
+    'daily_booking_report' => 'Reservas Diárias',
+    'overall_booking_report' => 'Reservas Gerais',
+    'payout_report' => 'Relatório de Pagamento',
+    'employee_report' => 'Relatório de Funcionários',
+    'system' => 'Sistema',
+    'settings' => 'Configurações',
+    'notification_list' => 'Lista de Notificações',
+    'notification_template' => 'Modelo de Notificação',
+    'app_banner' => 'Banner do App',
+];
