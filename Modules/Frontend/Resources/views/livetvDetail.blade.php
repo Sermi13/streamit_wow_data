@@ -44,6 +44,9 @@
         @endif
     </div>
 </div>
+
+@include('frontend::components.chat-widget', ['contentId' => $data['id'] ?? '0', 'contentType' => 'livetv'])
+
 <div class="modal fade" id="DeviceSupport" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content position-relative">

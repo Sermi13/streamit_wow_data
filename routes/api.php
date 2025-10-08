@@ -11,6 +11,7 @@ use Modules\User\Http\Controllers\API\UserController;
 use Modules\Entertainment\Http\Controllers\API\EntertainmentsController;
 use Modules\LiveTV\Http\Controllers\API\LiveTVsController;
 use App\Http\Controllers\TvAuthController;
+use App\Http\Controllers\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,6 +96,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
 });
 Route::get('app-configuration', [SettingController::class, 'appConfiguraton']);
+
+// Chat AI Widget
+Route::post('/chat', [ChatController::class, 'sendMessage'])->name('api.chat');
 
 Route::prefix('tv')->group(function () {
     Route::get('/initiate-session', [TvAuthController::class, 'initiateSession']);

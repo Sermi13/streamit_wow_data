@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="{{ asset('phosphor-icons/fill/style.css') }}">
 
     <link rel="stylesheet" href="{{ asset('css/customizer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/chat-widget.css') }}">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- <script src="https://cdn.jsdelivr.net/npm/videojs-srt@0.1.0/srt.min.js"></script> -->
 
@@ -135,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
     <script src="{{ asset('js/script.js') }}" defer></script>
+    <script src="{{ asset('js/chat-widget.js') }}"></script>
     {{-- Vite JS --}}
     {{-- {{ module_vite('build-frontend', 'resources/assets/js/app.js') }} --}}
     @stack('after-scripts')
