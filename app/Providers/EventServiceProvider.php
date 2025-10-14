@@ -35,6 +35,14 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Event' => [
             'App\Listeners\EventListener',
         ],
+
+        // Video Processing Webhooks
+        'App\Events\EntertainmentCreated' => [
+            'App\Listeners\SendEntertainmentToProcessing',
+        ],
+        'App\Events\EpisodeCreated' => [
+            'App\Listeners\SendEpisodeToProcessing',
+        ],
     ];
 
     /**

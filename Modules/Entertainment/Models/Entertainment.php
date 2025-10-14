@@ -38,6 +38,7 @@ class Entertainment extends BaseModel
         'name',
         'tmdb_id',
         'description',
+        'ai_summary',
         'trailer_url_type',
         'trailer_url',
         'poster_url',
@@ -189,6 +190,13 @@ class Entertainment extends BaseModel
     protected static function boot()
     {
         parent::boot();
+
+        static::created(function ($entertainment) {
+            // Dispatch event to send video for processing
+            if (config('services.video_processing.auto_send', true)) {
+                event(new \App\Events\EntertainmentCreated($entertainment));
+            }
+        });
 
         static::deleting(function ($entertainment) {
 
@@ -468,6 +476,11 @@ class Entertainment extends BaseModel
     public function subtitles()
     {
         return $this->entertainmentSubtitleMappings();
+    }
+
+    public function videoChunks()
+    {
+        return $this->hasMany(\App\Models\VideoChunk::class, 'entertainment_id', 'id');
     }
 
 }

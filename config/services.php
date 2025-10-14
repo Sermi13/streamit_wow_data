@@ -58,6 +58,10 @@ return [
         'private_key' => env('APPLE_PRIVATE_KEY'),
     ],
 
-
+    'video_processing' => [
+        'webhook_url' => env('VIDEO_PROCESSING_WEBHOOK_URL'),
+        'bearer_token' => env('VIDEO_PROCESSING_BEARER_TOKEN'),
+        'auto_send' => env('VIDEO_PROCESSING_AUTO_SEND', true),
+    ],
 
 ];

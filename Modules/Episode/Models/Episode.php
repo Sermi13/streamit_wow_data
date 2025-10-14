@@ -31,6 +31,7 @@ class Episode extends BaseModel
                           'is_restricted',
                           'short_desc',
                           'description',
+                          'ai_summary',
                           'enable_quality',
                           'video_upload_type',
                           'video_url_input',
@@ -51,6 +52,13 @@ class Episode extends BaseModel
     protected static function boot()
     {
         parent::boot();
+
+        static::created(function ($episode) {
+            // Dispatch event to send video for processing
+            if (config('services.video_processing.auto_send', true)) {
+                event(new \App\Events\EpisodeCreated($episode));
+            }
+        });
 
         static::deleting(function ($episode) {
 
@@ -114,6 +122,11 @@ class Episode extends BaseModel
     public function subtitles()
     {
         return $this->hasMany(Subtitle::class, 'entertainment_id', 'id')->where('type', 'episode');
+    }
+
+    public function videoChunks()
+    {
+        return $this->hasMany(\App\Models\VideoChunk::class, 'episode_id', 'id');
     }
 
 }
