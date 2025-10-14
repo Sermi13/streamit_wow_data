@@ -1,3 +1,4 @@
+@auth
 <div class="chat-widget">
     <button class="chat-button" onclick="toggleChat()">
         <div class="chat-button-icon">
@@ -11,7 +12,7 @@
         <div class="chat-header">
             <div class="chat-header-top">
                 <span class="header-avatar"></span>
-                <h3 class="header-title">Assistente IA</h3>
+                <h3 class="header-title">AnaAssist</h3>
                 <button class="close-btn" onclick="toggleChat()">×</button>
             </div>
             <p class="header-subtitle">Pronto para ajudar</p>
@@ -22,7 +23,7 @@
                 <div class="message-avatar"></div>
                 <div class="message-content">
                     <div class="message-bubble">
-                        Olá 👋 Sou o assistente para te guiar e tirar duvidas sobre os nossos vídeos, qual seria a sua pergunta?
+                        Olá 👋 Sou a AnaAssist, estou aqui para te guiar e tirar dúvidas sobre os nossos vídeos. Qual seria a sua pergunta?
                     </div>
                     <div class="message-time">{{ date('H:i') }}</div>
                 </div>
@@ -48,6 +49,7 @@
         </div>
     </div>
 </div>
+@endauth
 
 @push('after-scripts')
 <script>
@@ -56,5 +58,6 @@
     CONFIG.contentId = '{{ $contentId ?? '0' }}';
     CONFIG.contentType = '{{ $contentType ?? 'unknown' }}';
     CONFIG.apiUrl = '{{ route('api.chat') }}';
+    CONFIG.userAvatar = '{{ Auth::check() && Auth::user()->image ? asset(Auth::user()->image) : '' }}';
 </script>
 @endpush

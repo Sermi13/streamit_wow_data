@@ -2,7 +2,10 @@ const CONFIG = {
     apiUrl: '',
     userId: '',
     contentId: '',
-    contentType: ''
+    contentType: '',
+    userAvatar: '',
+    maxStoredMessages: 20,
+    storageKey: 'chatWidget_messages'
 };
 
 function toggleChat() {
@@ -10,6 +13,7 @@ function toggleChat() {
     container.classList.toggle('active');
     if (container.classList.contains('active')) {
         document.getElementById('chatInput').focus();
+        loadMessagesFromStorage();
     }
 }
 
@@ -28,6 +32,110 @@ function handleKeyDown(event) {
 function getTime() {
     const now = new Date();
     return now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+}
+
+/**
+ * Salva as mensagens no localStorage
+ * Mantém apenas as últimas 20 mensagens
+ */
+function saveMessagesToStorage() {
+    try {
+        const messagesContainer = document.getElementById('chatMessages');
+        const messages = [];
+
+        // Percorre todas as mensagens no container
+        const messageElements = messagesContainer.querySelectorAll('.message:not(#typingIndicator)');
+
+        messageElements.forEach(messageEl => {
+            const sender = messageEl.classList.contains('user') ? 'user' : 'bot';
+            const bubbleEl = messageEl.querySelector('.message-bubble');
+            const timeEl = messageEl.querySelector('.message-time');
+
+            if (bubbleEl && timeEl) {
+                messages.push({
+                    text: bubbleEl.innerHTML, // Salva HTML para preservar formatação markdown
+                    sender: sender,
+                    time: timeEl.textContent,
+                    timestamp: Date.now()
+                });
+            }
+        });
+
+        // Mantém apenas as últimas 20 mensagens
+        const recentMessages = messages.slice(-CONFIG.maxStoredMessages);
+
+        localStorage.setItem(CONFIG.storageKey, JSON.stringify(recentMessages));
+    } catch (error) {
+        console.error('Erro ao salvar mensagens:', error);
+    }
+}
+
+/**
+ * Carrega as mensagens do localStorage
+ * Chamada quando o chat é aberto
+ */
+function loadMessagesFromStorage() {
+    try {
+        const messagesContainer = document.getElementById('chatMessages');
+
+        // Verifica se já há mensagens carregadas (exceto a mensagem de boas-vindas padrão)
+        const existingMessages = messagesContainer.querySelectorAll('.message:not(#typingIndicator)');
+        if (existingMessages.length > 1) {
+            return; // Já há mensagens, não precisa carregar
+        }
+
+        const stored = localStorage.getItem(CONFIG.storageKey);
+
+        if (!stored) {
+            return; // Não há mensagens salvas
+        }
+
+        const messages = JSON.parse(stored);
+
+        if (!messages || messages.length === 0) {
+            return;
+        }
+
+        // Limpa o container (remove mensagem de boas-vindas se houver)
+        messagesContainer.innerHTML = '';
+
+        // Adiciona cada mensagem salva
+        messages.forEach(msg => {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${msg.sender}`;
+
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+
+            // Adiciona imagem do usuário se for mensagem do usuário
+            if (msg.sender === 'user' && CONFIG.userAvatar) {
+                avatar.style.backgroundImage = `url('${CONFIG.userAvatar}')`;
+                avatar.style.backgroundSize = 'cover';
+                avatar.style.backgroundPosition = 'center';
+            }
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.className = 'message-bubble';
+            bubbleDiv.innerHTML = msg.text; // Usa innerHTML para preservar formatação
+
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'message-time';
+            timeDiv.textContent = msg.time;
+
+            contentDiv.appendChild(bubbleDiv);
+            contentDiv.appendChild(timeDiv);
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(contentDiv);
+            messagesContainer.appendChild(messageDiv);
+        });
+
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    } catch (error) {
+        console.error('Erro ao carregar mensagens:', error);
+    }
 }
 
 async function sendMessage() {
@@ -95,6 +203,34 @@ async function sendMessage() {
     */
 }
 
+function parseMarkdown(text) {
+    // Converte markdown para HTML
+    return text
+        // Negrito: **texto** ou __texto__
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/__(.+?)__/g, '<strong>$1</strong>')
+        // Itálico: *texto* ou _texto_
+        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        .replace(/_(.+?)_/g, '<em>$1</em>')
+        // Links: [texto](url)
+        .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank">$1</a>')
+        // Listas: - item ou * item
+        .replace(/^[\-\*] (.+)$/gm, '<li>$1</li>')
+        // Código inline: `código`
+        .replace(/`(.+?)`/g, '<code>$1</code>')
+        // Quebras de linha
+        .replace(/\n/g, '<br>');
+}
+
+function wrapListItems(html) {
+    // Agrupa <li> consecutivos dentro de <ul>
+    return html.replace(/(<li>.*?<\/li>)(<br>)?(?=<li>|$)/gs, function(match) {
+        return match;
+    }).replace(/(<li>.*?<\/li>(<br>)?)+/gs, function(match) {
+        return '<ul>' + match.replace(/<br>/g, '') + '</ul>';
+    });
+}
+
 function typeMessage(text) {
     const messagesContainer = document.getElementById('chatMessages');
     const messageDiv = document.createElement('div');
@@ -120,18 +256,20 @@ function typeMessage(text) {
     messagesContainer.appendChild(messageDiv);
 
     let index = 0;
-    const typingSpeed = 30;
+    const typingSpeed = 10; // Velocidade de digitação em ms
 
     function typeChar() {
         if (index < text.length) {
-            const span = document.createElement('span');
-            span.className = 'typing-char';
-            span.textContent = text.charAt(index);
-            bubbleDiv.appendChild(span);
-
+            const currentText = text.substring(0, index + 1);
+            // Aplica formatação markdown
+            const formattedText = parseMarkdown(currentText);
+            bubbleDiv.innerHTML = wrapListItems(formattedText);
             index++;
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
             setTimeout(typeChar, typingSpeed);
+        } else {
+            // Salva as mensagens quando terminar de digitar
+            saveMessagesToStorage();
         }
     }
 
@@ -145,6 +283,13 @@ function addMessage(text, sender) {
 
     const avatar = document.createElement('div');
     avatar.className = 'message-avatar';
+
+    // Adiciona imagem do usuário se for mensagem do usuário
+    if (sender === 'user' && CONFIG.userAvatar) {
+        avatar.style.backgroundImage = `url('${CONFIG.userAvatar}')`;
+        avatar.style.backgroundSize = 'cover';
+        avatar.style.backgroundPosition = 'center';
+    }
 
     const contentDiv = document.createElement('div');
     contentDiv.className = 'message-content';
@@ -164,6 +309,9 @@ function addMessage(text, sender) {
     messagesContainer.appendChild(messageDiv);
 
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+    // Salva as mensagens após adicionar uma nova mensagem
+    saveMessagesToStorage();
 }
 
 function showTypingIndicator() {
@@ -190,4 +338,50 @@ function hideTypingIndicator() {
     if (indicator) {
         indicator.remove();
     }
+}
+
+/**
+ * Atualiza o contexto do chat (contentId e contentType)
+ * Útil quando o usuário navega para um novo vídeo/conteúdo
+ *
+ * @param {string|number} contentId - ID do novo conteúdo
+ * @param {string} contentType - Tipo do conteúdo (ex: 'video', 'article', etc)
+ * @param {boolean} clearChat - Se true, limpa o histórico de mensagens (padrão: true)
+ */
+function updateChatContext(contentId, contentType = 'video', clearChat = true) {
+    CONFIG.contentId = contentId;
+    CONFIG.contentType = contentType;
+
+    if (clearChat) {
+        clearChatMessages();
+
+        // Adiciona mensagem de boas-vindas com novo contexto
+        const messagesContainer = document.getElementById('chatMessages');
+        const welcomeMessage = document.createElement('div');
+        welcomeMessage.className = 'message bot';
+        welcomeMessage.innerHTML = `
+            <div class="message-avatar"></div>
+            <div class="message-content">
+                <div class="message-bubble">
+                    Olá 👋 Sou a AnaAssist, estou aqui para te guiar e tirar dúvidas sobre os nossos vídeos. Qual seria a sua pergunta?
+                </div>
+                <div class="message-time">${getTime()}</div>
+            </div>
+        `;
+        messagesContainer.appendChild(welcomeMessage);
+    }
+
+    console.log(`Chat context updated: contentId=${contentId}, contentType=${contentType}`);
+}
+
+/**
+ * Limpa todas as mensagens do chat
+ */
+function clearChatMessages() {
+    const messagesContainer = document.getElementById('chatMessages');
+    if (messagesContainer) {
+        messagesContainer.innerHTML = '';
+    }
+    // Limpa também o localStorage
+    localStorage.removeItem(CONFIG.storageKey);
 }

@@ -37,11 +37,20 @@ class ChatController extends Controller
                 ], 503);
             }
 
+            // Mapear tipos de conteúdo para o webhook
+            $contentTypeMapping = [
+                'tvshow' => 'episode',
+                'movie' => 'entertainment'
+            ];
+
+            // Mapeia o tipo ou mantém o original se não estiver no mapeamento
+            $mappedType = $contentTypeMapping[$validated['content_type']] ?? $validated['content_type'];
+
             // Dados para enviar ao n8n
             $dataToN8n = [
                 'user_id' => $validated['user_id'],
                 'content_id' => $validated['content_id'],
-                'content_type' => $validated['content_type'],
+                'type' => $mappedType, // Alterado de 'content_type' para 'type' e usando o tipo mapeado
                 'message' => $validated['message'],
                 'timestamp' => now()->toIso8601String()
             ];

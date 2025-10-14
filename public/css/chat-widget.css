@@ -229,18 +229,23 @@
 }
 
 .message-content {
-    max-width: 75%;
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 12px;
+    min-width: 0;
 }
 
 .message-bubble {
     padding: 14px 16px;
     border-radius: 16px;
-    font-size: 15px;
+    font-size: 13px;
     line-height: 1.5;
     transition: all 0.2s ease;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
 }
 
 .message.bot .message-bubble {
@@ -435,4 +440,58 @@
     #back-to-top .top {
         bottom: 110px !important;
     }
+}
+
+/* Estilos para Markdown */
+.message-bubble strong {
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.message-bubble em {
+    font-style: italic;
+    color: #d1d5db;
+}
+
+.message-bubble code {
+    background: #1a1a1a;
+    color: #f59e0b;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+}
+
+.message-bubble a {
+    color: #667eea;
+    text-decoration: none;
+    border-bottom: 1px solid #667eea;
+    transition: all 0.2s ease;
+}
+
+.message-bubble a:hover {
+    color: #764ba2;
+    border-bottom-color: #764ba2;
+}
+
+.message-bubble ul {
+    margin: 8px 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.message-bubble ul li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 6px;
+    line-height: 1.6;
+}
+
+.message-bubble ul li::before {
+    content: '•';
+    position: absolute;
+    left: 8px;
+    color: #667eea;
+    font-weight: bold;
+    font-size: 18px;
 }
