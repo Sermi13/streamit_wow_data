@@ -56,7 +56,7 @@ class ChatController extends Controller
             ];
 
             // Chamada para o n8n usando HTTP Client do Laravel
-            $response = Http::timeout(30)
+            $response = Http::timeout(240)
                 ->withHeaders([
                     'Content-Type' => 'application/json',
                 ])

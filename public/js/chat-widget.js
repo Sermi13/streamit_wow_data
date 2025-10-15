@@ -104,14 +104,21 @@ function loadMessagesFromStorage() {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${msg.sender}`;
 
-            const avatar = document.createElement('div');
-            avatar.className = 'message-avatar';
-
-            // Adiciona imagem do usuário se for mensagem do usuário
+            let avatar;
+            // Adiciona imagem do usuário ou do bot
             if (msg.sender === 'user' && CONFIG.userAvatar) {
-                avatar.style.backgroundImage = `url('${CONFIG.userAvatar}')`;
-                avatar.style.backgroundSize = 'cover';
-                avatar.style.backgroundPosition = 'center';
+                avatar = document.createElement('img');
+                avatar.src = CONFIG.userAvatar;
+                avatar.alt = 'User Avatar';
+                avatar.className = 'message-avatar';
+            } else if (msg.sender === 'bot') {
+                avatar = document.createElement('img');
+                avatar.src = '/img/chat-widget/ai_agent_icon.png';
+                avatar.alt = 'AI Assistant';
+                avatar.className = 'message-avatar';
+            } else {
+                avatar = document.createElement('div');
+                avatar.className = 'message-avatar';
             }
 
             const contentDiv = document.createElement('div');
@@ -236,7 +243,9 @@ function typeMessage(text) {
     const messageDiv = document.createElement('div');
     messageDiv.className = 'message bot';
 
-    const avatar = document.createElement('div');
+    const avatar = document.createElement('img');
+    avatar.src = '/img/chat-widget/ai_agent_icon.png';
+    avatar.alt = 'AI Assistant';
     avatar.className = 'message-avatar';
 
     const contentDiv = document.createElement('div');
@@ -281,14 +290,21 @@ function addMessage(text, sender) {
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${sender}`;
 
-    const avatar = document.createElement('div');
-    avatar.className = 'message-avatar';
-
-    // Adiciona imagem do usuário se for mensagem do usuário
+    let avatar;
+    // Adiciona imagem do usuário ou do bot
     if (sender === 'user' && CONFIG.userAvatar) {
-        avatar.style.backgroundImage = `url('${CONFIG.userAvatar}')`;
-        avatar.style.backgroundSize = 'cover';
-        avatar.style.backgroundPosition = 'center';
+        avatar = document.createElement('img');
+        avatar.src = CONFIG.userAvatar;
+        avatar.alt = 'User Avatar';
+        avatar.className = 'message-avatar';
+    } else if (sender === 'bot') {
+        avatar = document.createElement('img');
+        avatar.src = '/img/chat-widget/ai_agent_icon.png';
+        avatar.alt = 'AI Assistant';
+        avatar.className = 'message-avatar';
+    } else {
+        avatar = document.createElement('div');
+        avatar.className = 'message-avatar';
     }
 
     const contentDiv = document.createElement('div');
@@ -320,7 +336,7 @@ function showTypingIndicator() {
     typingDiv.id = 'typingIndicator';
     typingDiv.className = 'message bot';
     typingDiv.innerHTML = `
-        <div class="message-avatar"></div>
+        <img src="/img/chat-widget/ai_agent_icon.png" alt="AI Assistant" class="message-avatar">
         <div class="typing-indicator active">
             <div class="typing-dots">
                 <span></span>
@@ -360,7 +376,7 @@ function updateChatContext(contentId, contentType = 'video', clearChat = true) {
         const welcomeMessage = document.createElement('div');
         welcomeMessage.className = 'message bot';
         welcomeMessage.innerHTML = `
-            <div class="message-avatar"></div>
+            <img src="/img/chat-widget/ai_agent_icon.png" alt="AI Assistant" class="message-avatar">
             <div class="message-content">
                 <div class="message-bubble">
                     Olá 👋 Sou a AnaAssist, estou aqui para te guiar e tirar dúvidas sobre os nossos vídeos. Qual seria a sua pergunta?

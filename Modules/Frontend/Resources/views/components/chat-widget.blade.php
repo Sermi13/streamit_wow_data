@@ -20,7 +20,7 @@
 
         <div class="chat-messages" id="chatMessages">
             <div class="message bot">
-                <div class="message-avatar"></div>
+                <img src="{{ asset('img/chat-widget/ai_agent_icon.png') }}" alt="AI Assistant" class="message-avatar">
                 <div class="message-content">
                     <div class="message-bubble">
                         Olá 👋 Sou a AnaAssist, estou aqui para te guiar e tirar dúvidas sobre os nossos vídeos. Qual seria a sua pergunta?
@@ -58,6 +58,6 @@
     CONFIG.contentId = '{{ $contentId ?? '0' }}';
     CONFIG.contentType = '{{ $contentType ?? 'unknown' }}';
     CONFIG.apiUrl = '{{ route('api.chat') }}';
-    CONFIG.userAvatar = '{{ Auth::check() && Auth::user()->image ? asset(Auth::user()->image) : '' }}';
+    CONFIG.userAvatar = '{{ Auth::check() && Auth::user()->file_url ? setBaseUrlWithFileName(Auth::user()->file_url) : '' }}';
 </script>
 @endpush
