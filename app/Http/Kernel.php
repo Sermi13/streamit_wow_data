@@ -77,6 +77,7 @@ class Kernel extends HttpKernel
         'user' => \App\Http\Middleware\CheckUser::class,
         'checkModule' => \App\Http\Middleware\CheckModule::class,
         'checkInstallation' => \App\Http\Middleware\CheckInstallation::class,
-        
+        'admin.token' => \App\Http\Middleware\AdminTokenMiddleware::class,
+
     ];
 }

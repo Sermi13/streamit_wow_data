@@ -19,6 +19,14 @@ Route::get('search-list', [EntertainmentsController::class, 'searchList']);
 Route::get('get-search', [EntertainmentsController::class, 'getSearch']);
 Route::get('coming-soon', [EntertainmentsController::class, 'comingSoon']);
 
+// Admin routes - require admin token
+Route::group(['prefix' => 'admin', 'middleware' => 'admin.token'], function () {
+    Route::post('watchlist/add', [\Modules\Entertainment\Http\Controllers\API\AdminWatchlistController::class, 'addToWatchlist']);
+    Route::post('watchlist/remove', [\Modules\Entertainment\Http\Controllers\API\AdminWatchlistController::class, 'removeFromWatchlist']);
+    Route::get('watchlist/user', [\Modules\Entertainment\Http\Controllers\API\AdminWatchlistController::class, 'getUserWatchlist']);
+    Route::delete('watchlist/clear', [\Modules\Entertainment\Http\Controllers\API\AdminWatchlistController::class, 'clearUserWatchlist']);
+});
+
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
 

@@ -154,6 +154,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Admin API Tokens
+    |--------------------------------------------------------------------------
+    |
+    | Static tokens for admin API access. These tokens provide full access
+    | to admin endpoints. Define in .env as ADMIN_API_TOKENS.
+    | Multiple tokens can be separated by comma.
+    |
+    */
+
+    'admin_api_tokens' => env('ADMIN_API_TOKENS', ''),
+
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |
