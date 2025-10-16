@@ -78,12 +78,12 @@
                                         <a href="{{ route('movie-details', $movie['id']) }}" class="btn btn-primary" tabindex="-1">
                                             <span class="d-flex align-items-center justify-content-center gap-2">
                                                 <span><i class="ph-fill ph-play"></i></span>
-                                                <span>Watch Now</span>
+                                                <span>{{__('frontend.watch_now')}}</span>
                                             </span>
                                         </a>
                                         <a href="{{ route('movie-details', $movie['id']) }}" class="btn btn-dark">
                                             <span><i class="ph ph-info"></i></span>
-                                            <span>More Info</span>
+                                            <span>{{__('frontend.view_more_info')}}</span>
                                         </a>
                                     </div>
                                 </div>
@@ -248,7 +248,7 @@
               $this.toggleClass('btn-primary btn-dark');
               $this.data('in-watchlist', !isInWatchlist);
               var newInWatchlist = !isInWatchlist ? 'true' : 'false';
-              var newTooltip = newInWatchlist === 'true' ? 'Remove Watchlist' : 'Add Watchlist';
+              var newTooltip = newInWatchlist === 'true' ? '{{ __("frontend.remove_from_watchlist") }}' : '{{ __("frontend.add_to_watchlist") }}';
 
               // Destroy the current tooltip
               $this.tooltip('dispose');

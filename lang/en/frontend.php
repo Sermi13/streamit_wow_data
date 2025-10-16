@@ -375,5 +375,8 @@ return [
 'enter_your_pin'=>'Enter Your PIN.',
 'enter_pin' => 'Enter PIN',
 'confirm_pin' => 'Confirm PIN',
+'add_to_watchlist' => 'Add watchlist',
+'remove_from_watchlist' => 'Remove watchlist',
+'reviews_for' => 'Avaliações para',
 
 ];

@@ -5,7 +5,7 @@
         data-entertainment-id="{{ $entertainmentId }}"
         data-in-watchlist="{{ $inWatchlist ? 'true' : 'false' }}"
         data-entertainment-type="{{ $entertainmentType }}"
-        data-bs-toggle="tooltip" data-bs-title="{{ $inWatchlist ? 'Remove watchlist' : 'Add watchlist' }}" data-bs-placement="top">
+        data-bs-toggle="tooltip" data-bs-title="{{ $inWatchlist ? __('frontend.remove_from_watchlist') : __('frontend.add_to_watchlist') }}" data-bs-placement="top">
     <i class="ph {{ $inWatchlist ? 'ph-check' : 'ph-plus' }}"></i>
 </button>
 
@@ -40,7 +40,7 @@ $(document).on('click', '.watch-list-btn', function (event) {
             var newInWatchlist = isInWatchlist == '1' ? 'false' : 'true';
             $this.data('in-watchlist', newInWatchlist === 'true' ? 1 : 0);
 
-            var newTooltip = newInWatchlist === 'true' ? 'Remove Watchlist' : 'Add Watchlist';
+            var newTooltip = newInWatchlist === 'true' ? '{{ __("frontend.remove_from_watchlist") }}' : '{{ __("frontend.add_to_watchlist") }}';
             if ($this.tooltip) {
                 $this.tooltip('dispose');
                 $this.attr('data-bs-title', newTooltip);

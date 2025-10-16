@@ -1,3 +1,4 @@
+
 <div>
     <div id="reviewlist">
         @if($your_review != null)
@@ -52,7 +53,7 @@
     <div id="review-list-card">
         <div class="mt-5 mb-2 d-flex align-items-center justify-content-between">
         @if($total_review > 0)
-        <h5 class="m-0">{{ $total_review }} Reviews for {{ $title }}</h5>
+        <h5 class="m-0">{{ $total_review }} {{ __('frontend.reviews_for') }} {{ $title }}</h5>
         @endif
         @if($total_review > 3)
 

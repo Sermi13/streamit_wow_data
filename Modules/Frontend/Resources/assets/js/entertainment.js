@@ -99,7 +99,7 @@ function initializeWatchlistButtons() {
               $this.toggleClass('btn-primary btn-dark');
               $this.data('in-watchlist', !isInWatchlist);
               var newInWatchlist = !isInWatchlist ? 'true' : 'false';
-              var newTooltip = newInWatchlist === 'true' ? 'Remove Watchlist' : 'Add Watchlist';
+              var newTooltip = newInWatchlist === 'true' ? window.translations.remove_from_watchlist : window.translations.add_to_watchlist;
 
               // Destroy the current tooltip
               $this.tooltip('dispose');

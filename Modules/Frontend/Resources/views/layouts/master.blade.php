@@ -163,6 +163,8 @@ const currencyFormat = (amount) => {
     send_otp: @json(__('Send OTP')),
     sending: @json(__('frontend.sending')),
      send_otp: @json(__('frontend.send_otp')),
+    add_to_watchlist: @json(__('frontend.add_to_watchlist')),
+    remove_from_watchlist: @json(__('frontend.remove_from_watchlist')),
         }
 </script>
 </body>

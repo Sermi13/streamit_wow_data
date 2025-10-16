@@ -80,12 +80,12 @@
                                         <a href="{{ route('tvshow-details', $slider['id']) }}" class="btn btn-primary" tabindex="-1">
                                             <span class="d-flex align-items-center justify-content-center gap-2">
                                                 <span><i class="ph-fill ph-play"></i></span>
-                                                <span>Watch Now</span>
+                                                <span>{{__('frontend.watch_now')}}</span>
                                             </span>
                                         </a>
                                         <a href="{{ route('tvshow-details', $slider['id']) }}" class="btn btn-dark">
                                             <span><i class="ph ph-info"></i></span>
-                                            <span>More Info</span>
+                                            <span>{{__('frontend.view_more_info')}}</span>
                                         </a>
                                     </div>
                                 </div>
